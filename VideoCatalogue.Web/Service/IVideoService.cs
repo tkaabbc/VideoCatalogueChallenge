@@ -17,5 +17,11 @@ namespace VideoCatalogue.Web.Services
     /// </summary>
     /// <param name="files">The list of files provided by the HTTP request.</param>
     Task UploadFilesAndValidateAsync(List<IFormFile> files);
+
+    /// <summary>
+    /// Retrieves the list of all valid MP4 videos from the server media folder.
+    /// </summary>
+    /// <returns>A list of VideoItem objects.</returns>
+    List<VideoItem> GetVideoList();
   }
 }

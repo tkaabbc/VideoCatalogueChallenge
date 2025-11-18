@@ -50,5 +50,27 @@ namespace VideoCatalogue.Web.Services
         await SaveFileAsync(file);
       }
     }
+
+    public List<VideoItem> GetVideoList()
+    {
+      if (!Directory.Exists(_mediaPath))
+      {
+        return new List<VideoItem>();
+      }
+
+      var files = Directory.GetFiles(_mediaPath, $"*{FileExtensions.Mp4}", SearchOption.TopDirectoryOnly);
+
+      return files.Select(filePath =>
+      {
+        var fileInfo = new FileInfo(filePath);
+        return new VideoItem
+        {
+          FileName = fileInfo.Name,
+          SizeInBytes = fileInfo.Length,
+        };
+      })
+      .OrderBy(v => v.FileName)
+      .ToList();
+    }
   }
 }

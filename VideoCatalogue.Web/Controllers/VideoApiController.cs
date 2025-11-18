@@ -37,5 +37,12 @@ namespace VideoCatalogue.Web.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    [HttpGet("catalogue")]
+    public ActionResult<List<VideoItem>> GetCatalogue()
+    {
+      var catalogue = _videoService.GetVideoList();
+      return catalogue;
+    }
   }
 }
