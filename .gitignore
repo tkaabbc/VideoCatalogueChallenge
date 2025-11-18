@@ -52,3 +52,14 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# VSCode
+.vscode/
+
+# Node.js
+VideoCatalogue.Web/node_modules/
+
+# Media files
+VideoCatalogue.Web/wwwroot/video/
+
+VideoCatalogue.Web/wwwroot/js/
