@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCatalogue.Web", "VideoCatalogue.Web\VideoCatalogue.Web.csproj", "{553E4586-3FDD-46FF-AC89-FF9B41DAF89F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCatalogue.Tests", "VideoCatalogue.Tests\VideoCatalogue.Tests.csproj", "{1C1533F3-1682-4971-8458-E828CF0D3ECB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{553E4586-3FDD-46FF-AC89-FF9B41DAF89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{553E4586-3FDD-46FF-AC89-FF9B41DAF89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{553E4586-3FDD-46FF-AC89-FF9B41DAF89F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1533F3-1682-4971-8458-E828CF0D3ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1533F3-1682-4971-8458-E828CF0D3ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1533F3-1682-4971-8458-E828CF0D3ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1533F3-1682-4971-8458-E828CF0D3ECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
