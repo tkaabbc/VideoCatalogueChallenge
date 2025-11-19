@@ -1,8 +1,96 @@
 ﻿@{
-  ViewData["Title"] = "Home Page";
+  ViewData["Title"] = "Video Management";
 }
 
-<div class="text-center">
-  <h1 class="display-4">Welcome</h1>
-  <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="app-container" class="m-5" data-bind="with: appViewModel">
+  <h2>Video Management</h2>
+  <hr />
+
+  <nav class="mb-3">
+    <button class="btn"
+      data-bind="click: showCatalogue, css: { 'btn-primary': isCatalogueView(), 'btn-secondary': !isCatalogueView() }">
+      Catalogue
+    </button>
+    <button class="btn"
+      data-bind="click: showUploadForm, css: { 'btn-primary': isUploadFormView(), 'btn-secondary': !isUploadFormView() }">
+      Upload
+    </button>
+  </nav>
+
+  <section data-bind="visible: isCatalogueView" class="view-section">
+    <h3>Video Catalogue</h3>
+
+    <div data-bind="visible: true" class="mb-4 p-3 bg-light border video-player-container">
+      <h4>Now Playing: <span data-bind="text: currentVideoName"></span></h4>
+      <video controls data-bind="attr: { src: currentVideoUrl }" oncontextmenu="return false;">
+        Your browser does not support video playback.
+      </video>
+    </div>
+
+    <div class="responsive-table-wrapper">
+      <table class="table table-striped table-hover responsive-table">
+        <thead>
+          <tr>
+            <th>Filename</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody data-bind="foreach: videoCatalogue">
+          <tr data-bind="click: $parent.selectVideo">
+            <td data-bind="text: fileName"></td>
+            <td data-bind="text: formattedSize"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="text-muted" data-bind="visible: videoCatalogue().length === 0">
+      No video files in the catalogue. Please switch to upload view to upload files.
+    </p>
+  </section>
+
+  <section data-bind="visible: isUploadFormView" class="view-section">
+    <h3>Upload MP4 Files</h3>
+    <p class="text-muted">Supports batch upload. Maximum size: 200MB per upload.</p>
+
+    <div class="alert alert-danger" role="alert" data-bind="visible: uploadErrorMessage">
+      <strong>Upload Failed:</strong><span data-bind="text: uploadErrorMessage"></span>
+    </div>
+    <div class="alert alert-success" role="alert" data-bind="visible: uploadSuccessMessage">
+      <span data-bind="text: uploadSuccessMessage"></span>
+    </div>
+
+    <form data-bind="submit: submitFiles" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="fileInput" class="form-label">Select MP4 Files</label>
+        <input type="file" class="form-control" id="fileInput" accept="video/mp4" multiple required
+          data-bind="event: { change: onFilesSelected }" />
+      </div>
+
+      <button type="submit" class="btn btn-success" data-bind="enable: !isUploading()">
+        <span>Upload Files</span>
+      </button>
+    </form>
+  </section>
 </div>
+
+
+@section Scripts {
+  <script type="module">
+    import { ViewModel } from '/js/AppViewModel.js';
+
+    $(document).ready(() => {
+      const initViewModel = () => {
+        const viewModelInstance = new ViewModel();
+
+        // Initial load of catalogue data
+        viewModelInstance.loadCatalogue();
+
+        // Apply Knockout bindings
+        ko.applyBindings({ appViewModel: viewModelInstance }, document.getElementById('app-container'));
+
+      }
+      initViewModel();
+    });
+  </script>
+}

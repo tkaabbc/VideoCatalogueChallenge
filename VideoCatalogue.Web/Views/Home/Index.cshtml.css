@@ -1,0 +1,17 @@
+body {
+  min-width: 400px;
+  max-width: 1400px;
+  margin: 0 auto 60px;
+  overflow-x: hidden;
+}
+
+.view-section {
+  min-height: 400px;
+}
+
+.video-player-container video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  object-fit: contain;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "videocatalogue.web",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:ts": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/knockout": "^3.4.77",
+    "knockout": "^3.5.1",
+    "typescript": "^5.9.3"
+  }
+}
