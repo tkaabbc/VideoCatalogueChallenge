@@ -1,16 +1,19 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using VideoCatalogue.Web.Configuration;
 using VideoCatalogue.Web.Services;
+using VideoCatalogue.Web.Services.Storage;
 using VideoCatalogue.Web.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<StorageOptions>(
+    builder.Configuration.GetSection(StorageOptions.SectionName));
+builder.Services.AddSingleton<IStorageProvider, LocalFileStorageProvider>();
+
 builder.Services.AddSingleton<IVideoService, VideoService>();
 
-// Register FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<VideoUploadRequestValidator>();
-
-// Enable FluentValidation auto-validation for API controllers
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddControllersWithViews();
@@ -26,8 +29,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "wwwroot/video"));
 
 app.UseStaticFiles();
 
