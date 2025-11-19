@@ -38,4 +38,3 @@ public class StorageFileInfo
   public long SizeInBytes { get; set; }
   public DateTime LastModified { get; set; }
 }
-
