@@ -22,7 +22,7 @@
 
     <div data-bind="visible: true" class="mb-4 p-3 bg-light border video-player-container">
       <h4>Now Playing: <span data-bind="text: currentVideoName"></span></h4>
-      <video controls data-bind="attr: { src: currentVideoUrl }" oncontextmenu="return false;">
+      <video controls autoplay data-bind="attr: { src: currentVideoUrl }" oncontextmenu="return false;">
         Your browser does not support video playback.
       </video>
     </div>
