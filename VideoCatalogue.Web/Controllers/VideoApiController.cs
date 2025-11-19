@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using VideoCatalogue.Web.Common;
-using VideoCatalogue.Web.Exceptions;
 using VideoCatalogue.Web.Models;
 using VideoCatalogue.Web.Services;
 
@@ -20,22 +19,15 @@ namespace VideoCatalogue.Web.Controllers
 
     [HttpPost("upload")]
     [RequestSizeLimit(MaxFileSize)]
-    public async Task<ActionResult> Upload([FromForm] List<IFormFile> files)
+    public async Task<ActionResult> Upload([FromForm] VideoUploadRequest request)
     {
-      if (files == null || !files.Any())
+      if (!ModelState.IsValid)
       {
-        return BadRequest(ErrorMessages.NoFilesSelected);
+        return BadRequest(ModelState);
       }
 
-      try
-      {
-        await _videoService.UploadFilesAndValidateAsync(files);
-        return Ok();
-      }
-      catch (VideoValidationException e)
-      {
-        return BadRequest(e.Message);
-      }
+      await _videoService.UploadFilesAsync(request.Files);
+      return Ok();
     }
 
     [HttpGet("catalogue")]

@@ -1,5 +1,4 @@
 using VideoCatalogue.Web.Common;
-using VideoCatalogue.Web.Exceptions;
 using VideoCatalogue.Web.Models;
 
 namespace VideoCatalogue.Web.Services
@@ -26,25 +25,8 @@ namespace VideoCatalogue.Web.Services
       }
     }
 
-    public async Task UploadFilesAndValidateAsync(List<IFormFile> files)
+    public async Task UploadFilesAsync(List<IFormFile> files)
     {
-      var errors = new List<string>();
-
-      foreach (var file in files)
-      {
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (extension != FileExtensions.Mp4)
-        {
-          errors.Add(string.Format(ErrorMessages.InvalidVideoFormat, file.FileName));
-          continue;
-        }
-      }
-
-      if (errors.Any())
-      {
-        throw new VideoValidationException(string.Join("\n", errors));
-      }
-
       foreach (var file in files)
       {
         await SaveFileAsync(file);

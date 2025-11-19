@@ -1,8 +1,18 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using VideoCatalogue.Web.Services;
+using VideoCatalogue.Web.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IVideoService, VideoService>();
+
+// Register FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<VideoUploadRequestValidator>();
+
+// Enable FluentValidation auto-validation for API controllers
+builder.Services.AddFluentValidationAutoValidation();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

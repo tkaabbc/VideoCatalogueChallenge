@@ -13,10 +13,10 @@ namespace VideoCatalogue.Web.Services
     Task SaveFileAsync(IFormFile file);
 
     /// <summary>
-    /// Uploads and validates the list of files.
+    /// Uploads the list of files (validation should be done at controller level).
     /// </summary>
-    /// <param name="files">The list of files provided by the HTTP request.</param>
-    Task UploadFilesAndValidateAsync(List<IFormFile> files);
+    /// <param name="files">The list of validated files from the HTTP request.</param>
+    Task UploadFilesAsync(List<IFormFile> files);
 
     /// <summary>
     /// Retrieves the list of all valid MP4 videos from the server media folder.
