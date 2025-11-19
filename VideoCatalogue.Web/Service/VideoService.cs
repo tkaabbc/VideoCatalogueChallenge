@@ -1,27 +1,25 @@
 using VideoCatalogue.Web.Common;
 using VideoCatalogue.Web.Models;
+using VideoCatalogue.Web.Services.Storage;
 
 namespace VideoCatalogue.Web.Services
 {
   public class VideoService : IVideoService
   {
-    private readonly string _mediaPath;
+    private readonly IStorageProvider _storageProvider;
 
-    public VideoService(IWebHostEnvironment webHostEnvironment)
+    public VideoService(IStorageProvider storageProvider)
     {
-      _mediaPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot/video");
+      _storageProvider = storageProvider;
     }
 
     public async Task SaveFileAsync(IFormFile file)
     {
-      // Sanitize the file name to prevent path traversal attacks
       var safeFileName = Path.GetFileName(file.FileName);
-      var filePath = Path.Combine(_mediaPath, safeFileName);
 
-      using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+      using (var stream = file.OpenReadStream())
       {
-        // FileMode.Create ensures that if the file exists, it is overwritten
-        await file.CopyToAsync(stream);
+        await _storageProvider.SaveFileAsync(safeFileName, stream);
       }
     }
 
@@ -33,23 +31,15 @@ namespace VideoCatalogue.Web.Services
       }
     }
 
-    public List<VideoItem> GetVideoList()
+    public async Task<List<VideoItem>> GetVideoListAsync()
     {
-      if (!Directory.Exists(_mediaPath))
-      {
-        return new List<VideoItem>();
-      }
+      var files = await _storageProvider.GetFilesAsync($"*{FileExtensions.Mp4}");
 
-      var files = Directory.GetFiles(_mediaPath, $"*{FileExtensions.Mp4}", SearchOption.TopDirectoryOnly);
-
-      return files.Select(filePath =>
+      return files.Select(fileInfo => new VideoItem
       {
-        var fileInfo = new FileInfo(filePath);
-        return new VideoItem
-        {
-          FileName = fileInfo.Name,
-          SizeInBytes = fileInfo.Length,
-        };
+        FileName = fileInfo.FileName,
+        SizeInBytes = fileInfo.SizeInBytes,
+        Url = _storageProvider.GetFileUrl(fileInfo.FileName),
       })
       .OrderBy(v => v.FileName)
       .ToList();

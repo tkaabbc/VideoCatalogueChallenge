@@ -22,6 +22,6 @@ namespace VideoCatalogue.Web.Services
     /// Retrieves the list of all valid MP4 videos from the server media folder.
     /// </summary>
     /// <returns>A list of VideoItem objects.</returns>
-    List<VideoItem> GetVideoList();
+    Task<List<VideoItem>> GetVideoListAsync();
   }
 }

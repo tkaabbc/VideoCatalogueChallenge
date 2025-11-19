@@ -1,16 +1,12 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using VideoCatalogue.Web.Common;
 using VideoCatalogue.Web.Models;
 
 namespace VideoCatalogue.Web.Validators;
 
 public class VideoUploadRequestValidator : AbstractValidator<VideoUploadRequest>
 {
-  private static readonly string[] ValidMimeTypes =
-  {
-    "video/mp4",
-  };
-
   public VideoUploadRequestValidator()
   {
     RuleFor(x => x.Files)
@@ -24,13 +20,14 @@ public class VideoUploadRequestValidator : AbstractValidator<VideoUploadRequest>
         .WithMessage("File cannot be null.")
         .Must(file => file!.Length > 0)
         .WithMessage((request, file) => $"File '{file!.FileName}' is empty.")
-        .Must(file => IsValidMimeType(file!))
-        .WithMessage((request, file) => $"File '{file!.FileName}' is not a valid MP4 video file. Only MP4 format is allowed.");
+        .Must(file => IsValidMP4Extension(file!))
+        .WithMessage((request, file) => $"File '{file!.FileName}' is not a valid MP4 video file. Only .mp4 format is allowed.");
   }
 
-  private static bool IsValidMimeType(IFormFile file)
+  private static bool IsValidMP4Extension(IFormFile file)
   {
-    return ValidMimeTypes.Contains(file.ContentType.ToLowerInvariant());
+    var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+    return extension == FileExtensions.Mp4;
   }
 }
 

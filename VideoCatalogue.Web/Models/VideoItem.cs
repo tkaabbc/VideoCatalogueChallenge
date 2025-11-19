@@ -11,5 +11,10 @@ namespace VideoCatalogue.Web.Models
     /// The raw size of the file in bytes.
     /// </summary>
     public long SizeInBytes { get; set; }
+
+    /// <summary>
+    /// The URL of the video.
+    /// </summary>
+    public string Url { get; set; } = string.Empty;
   }
 }

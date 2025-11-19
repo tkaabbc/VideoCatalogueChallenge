@@ -31,9 +31,9 @@ namespace VideoCatalogue.Web.Controllers
     }
 
     [HttpGet("catalogue")]
-    public ActionResult<List<VideoItem>> GetCatalogue()
+    public async Task<ActionResult<List<VideoItem>>> GetCatalogue()
     {
-      var catalogue = _videoService.GetVideoList();
+      var catalogue = await _videoService.GetVideoListAsync();
       return catalogue;
     }
   }
